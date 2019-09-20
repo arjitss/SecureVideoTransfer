@@ -23,6 +23,7 @@
 		1712860523340C4200502ECD /* libopencv_stitching.4.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 171285F623340C4100502ECD /* libopencv_stitching.4.1.1.dylib */; };
 		1712860623340C4200502ECD /* libopencv_dnn.4.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 171285F723340C4200502ECD /* libopencv_dnn.4.1.1.dylib */; };
 		1712860723340C4200502ECD /* libopencv_highgui.4.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 171285F823340C4200502ECD /* libopencv_highgui.4.1.1.dylib */; };
+		1712860A23341D3700502ECD /* SVT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1712860923341D3700502ECD /* SVT.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +56,8 @@
 		171285F623340C4100502ECD /* libopencv_stitching.4.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_stitching.4.1.1.dylib; path = "../opencv-4.1.1/build/lib/libopencv_stitching.4.1.1.dylib"; sourceTree = "<group>"; };
 		171285F723340C4200502ECD /* libopencv_dnn.4.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_dnn.4.1.1.dylib; path = "../opencv-4.1.1/build/lib/libopencv_dnn.4.1.1.dylib"; sourceTree = "<group>"; };
 		171285F823340C4200502ECD /* libopencv_highgui.4.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.4.1.1.dylib; path = "../opencv-4.1.1/build/lib/libopencv_highgui.4.1.1.dylib"; sourceTree = "<group>"; };
+		17128608233417D800502ECD /* SVT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVT.h; sourceTree = "<group>"; };
+		1712860923341D3700502ECD /* SVT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SVT.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				171285E32333FDF000502ECD /* main.cpp */,
+				17128608233417D800502ECD /* SVT.h */,
+				1712860923341D3700502ECD /* SVT.cpp */,
 			);
 			path = SecureVideoTransfer;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				171285E42333FDF000502ECD /* main.cpp in Sources */,
+				1712860A23341D3700502ECD /* SVT.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
