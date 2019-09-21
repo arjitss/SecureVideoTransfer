@@ -8,6 +8,10 @@
 
 #include "FaceBlur.hpp"
 
+//----------------------------------------------------------------------
+/* To load the Haar Cascade XML                       */
+//----------------------------------------------------------------------
+
 int FaceBlur::LoadCascade(string xmlFile){
     if( xmlFile == ""){
         xmlFile = "/Users/arjits/cosmos/VideoAnalytics/opencv-4.1.1/data/haarcascades/haarcascade_frontalface_alt.xml";
@@ -19,6 +23,9 @@ int FaceBlur::LoadCascade(string xmlFile){
 };
 
 
+//----------------------------------------------------------------------
+/* Call the Haar Algo to Blur the face in Video                       */
+//----------------------------------------------------------------------
 void FaceBlur::detectAndDraw(Mat& img){
     Mat frame_gray, img1;
     
@@ -31,8 +38,7 @@ void FaceBlur::detectAndDraw(Mat& img){
     for ( size_t i = 0; i < faces.size(); i++ ){
         Rect faceROI2 =  faces[i];
         Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
-        //ellipse( img, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4 );
-        //Mat faceROI = frame_gray( faces[i] );
+        //ellipse( img, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 255, 255 ), 4 );
         
         GaussianBlur(img(faceROI2), img(faceROI2), Size(0, 0), 4);
     }

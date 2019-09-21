@@ -35,10 +35,8 @@ class SVT {
     string getOutFile(string strOutFilePath);
     void showMeTheVideo();
     void writeTheVideo(Mat frame);
-    int startCapture(string strInFilePath);
-    int endCapture(string strInFilePath);
-    void finalize();
     int BlurROI(Mat frame, int iCall);
+    void finalize();
     
     FaceBlur fb;
 };

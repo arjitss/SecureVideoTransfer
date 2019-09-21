@@ -8,6 +8,11 @@
 
 #include "SVT.h"
 
+//----------------------------------------------------------------------
+/* This function is for opening the input Video file that we wish to  */
+/* secure & blur                                                      */
+//----------------------------------------------------------------------
+
 int SVT::getInFile(string strInFilePath){
    // For Test Purpose
     if(strInFilePath.length() == 0)
@@ -24,6 +29,11 @@ int SVT::getInFile(string strInFilePath){
     fps = cap.get(CAP_PROP_FPS);
     return 0;
 };
+
+//----------------------------------------------------------------------
+/* This function is for opening the output Video file based on the    */
+/* input                                                              */
+//----------------------------------------------------------------------
 string SVT::getOutFile(string strOutFilePath){
     
     time_t curtime;
@@ -32,13 +42,17 @@ string SVT::getOutFile(string strOutFilePath){
     if(strOutFilePath == "")
         strOutFilePath.assign(strInFilePath.begin(), strInFilePath.end()-4);
     
-    strOutFilePath.append("TCS_Updated.avi");
+    strOutFilePath.append("Secure_Updated.avi");
     cout << "File will be written at following location: \n" << strOutFilePath << endl;
 
     // Define the codec and create VideoWriter object.
     video.open(strOutFilePath,cv::VideoWriter::fourcc('M','J','P','G'),fps, Size(frameWidth,frameHeight));
     return strOutFilePath;
 };
+
+//----------------------------------------------------------------------
+/* Identify the 2 ROIs based on the mouse click                        */
+//----------------------------------------------------------------------
 
  void mouseClick(int event, int x, int y, int flags, void* param){
      
@@ -73,6 +87,12 @@ string SVT::getOutFile(string strOutFilePath){
     }
 };
 
+//----------------------------------------------------------------------
+/* This is the Key function that is called to view the video
+   This function also in turn calls:
+   1. BlurROI - for selecting two ROIs and Blur it                   */
+//----------------------------------------------------------------------
+
 void SVT::showMeTheVideo(){
     cap >> ::frame;
     // If the frame is empty, break immediately
@@ -89,6 +109,13 @@ void SVT::showMeTheVideo(){
             break;
     }
 };
+
+//----------------------------------------------------------------------
+/* Heart of the program
+  1. Identify ROI based on mouse click and blur it
+  2. Calls extern function detectAndDraw - That use Haar to indetify the
+     face and blur it                                                 */
+//----------------------------------------------------------------------
 
  int SVT::BlurROI(Mat frame, int iCall){
     Mat grey, imgFace;
@@ -124,12 +151,19 @@ void SVT::showMeTheVideo(){
     return 0;
  };
 
+//----------------------------------------------------------------------
+/* Writing the Video File                        */
+//----------------------------------------------------------------------
+
 void SVT::writeTheVideo(Mat frame){
        // Get the count of the frames
     lTotalFramesWrite ++ ;
     video.write(frame);
 };
 
+//----------------------------------------------------------------------
+/* Clean Up                        */
+//----------------------------------------------------------------------
 void SVT::finalize(){
     cout << "Cleaning the data \n";
     cout << "Total Frames Read: " << lTotalFramesRead << endl;
