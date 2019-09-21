@@ -15,7 +15,7 @@
 #include "SVT.h"
 
 int main(int argc, const char * argv[]) {
-    string strInFilePath;
+    string strInFilePath, strOutFilePath;
     // insert code here...
     std::cout << "Hello, World!\n";
     SVT svt;
@@ -23,7 +23,13 @@ int main(int argc, const char * argv[]) {
     getline(cin, strInFilePath);
 
     svt.getInFile(strInFilePath);
-   // svt.getOutFile();
+    
+    std::cout << "Enter the Path and File Name of output file (Default : Enter)\n";
+    
+    getline(cin, strOutFilePath);
+    cout << strOutFilePath <<endl;
+    
+    svt.getOutFile(strOutFilePath); // Use the same path as input file
     svt.showMeTheVideo();
     svt.finalize();
     return 0;

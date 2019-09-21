@@ -10,28 +10,36 @@
 #define SVT_h
 
 #include <iostream>
+#include <ctime>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
 
+static Rect roi[2]; // Only two ROI considered for this project
+static int drag = 0;
+static Point point1, point2;
+static Mat frame, greyframe;
+static bool bLastUpdateSecond = false;
+
 class SVT {
     private:
-    int frameWidth, frameHeight;
+    int frameWidth, frameHeight, fps;
     long lTotalFramesRead, lTotalFramesWrite;
     string strInFilePath, strOutFilePath;
-    Mat frame, greyframe;
     VideoCapture cap;
     VideoWriter video;
     
     public:
     int getInFile(string strInFilePath);
-    string getOutFile();
+    string getOutFile(string strOutFilePath);
     void showMeTheVideo();
-    void writeTheVideo();
+    void writeTheVideo(Mat frame);
     int startCapture(string strInFilePath);
     int endCapture(string strInFilePath);
     void finalize();
+    int BlurROI(Mat frame, int iCall);
 };
+
 
 #endif /* SVT_h */
