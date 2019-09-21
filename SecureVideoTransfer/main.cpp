@@ -22,7 +22,9 @@ int main(int argc, const char * argv[]) {
     std::cout << "Enter the Path and File Name to be converted:\n";
     getline(cin, strInFilePath);
 
-    svt.getInFile(strInFilePath);
+    if( svt.getInFile(strInFilePath) == -1){
+        exit(-1);
+    }
     
     std::cout << "Enter the Path and File Name of output file (Default : Enter)\n";
     
@@ -30,6 +32,9 @@ int main(int argc, const char * argv[]) {
     cout << strOutFilePath <<endl;
     
     svt.getOutFile(strOutFilePath); // Use the same path as input file
+    
+    svt.fb.LoadCascade("");
+    
     svt.showMeTheVideo();
     svt.finalize();
     return 0;

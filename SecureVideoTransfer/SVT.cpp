@@ -91,7 +91,7 @@ void SVT::showMeTheVideo(){
 };
 
  int SVT::BlurROI(Mat frame, int iCall){
-    Mat grey;
+    Mat grey, imgFace;
     if(lTotalFramesRead == 1 && iCall == 0){
         imshow( "Frame", frame );
         setMouseCallback("Frame", mouseClick, NULL);
@@ -110,6 +110,8 @@ void SVT::showMeTheVideo(){
             GaussianBlur(grey(::roi[i]), grey(::roi[i]), Size(0, 0), 4);
         }
     }
+    // imgFace = frame.clone();
+     fb.detectAndDraw(frame);
     imshow( "Frame", frame );
     writeTheVideo(frame);
     cap >> ::frame; //next frame
@@ -134,3 +136,4 @@ void SVT::finalize(){
     cap.release();
     destroyAllWindows();
 };
+

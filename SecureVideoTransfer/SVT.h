@@ -10,8 +10,8 @@
 #define SVT_h
 
 #include <iostream>
-#include <ctime>
 #include <opencv2/opencv.hpp>
+#include "FaceBlur.hpp"
 
 using namespace std;
 using namespace cv;
@@ -39,6 +39,8 @@ class SVT {
     int endCapture(string strInFilePath);
     void finalize();
     int BlurROI(Mat frame, int iCall);
+    
+    FaceBlur fb;
 };
 
 
