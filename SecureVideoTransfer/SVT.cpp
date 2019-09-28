@@ -15,8 +15,10 @@
 
 int SVT::getInFile(string strInFilePath){
    // For Test Purpose
-    if(strInFilePath.length() == 0)
+    if(strInFilePath.length() == 0){
+        //strInFilePath = "https://www.w3schools.com/html/mov_bbb.mp4";
         strInFilePath = "/Users/arjits/cosmos/VideoAnalytics/OpenCvShamb2/RightScenario.mp4";
+    }
     this->strInFilePath = strInFilePath;
     cap.open(strInFilePath);
     if(!cap.isOpened()){
@@ -80,7 +82,6 @@ string SVT::getOutFile(string strOutFilePath){
             ::roi[1] = Rect(point1.x, point1.y, x - point1.x, y - point1.y);
             bLastUpdateSecond = true;
         }
-        
     }
     if (event == EVENT_LBUTTONUP){
         drag = 0;
@@ -114,7 +115,8 @@ void SVT::showMeTheVideo(){
 /* Heart of the program
   1. Identify ROI based on mouse click and blur it
   2. Calls extern function detectAndDraw - That use Haar to indetify the
-     face and blur it                                                 */
+     face and blur it
+  3. It also pause or start play based on space bar or letter 'p' press */
 //----------------------------------------------------------------------
 
  int SVT::BlurROI(Mat frame, int iCall){
@@ -128,26 +130,36 @@ void SVT::showMeTheVideo(){
     if (frame.empty())
         return -1;
     
-    for (int i = 0; i < (sizeof(roi) / sizeof(roi[0])) ; i++){
-        cvtColor(frame, grey, COLOR_BGR2GRAY);
-        cvtColor(grey, grey, COLOR_GRAY2BGR);
-        if(!::roi[i].empty()){
-            grey(::roi[i]).copyTo(frame(::roi[i]));
-            grey = frame;
-            GaussianBlur(grey(::roi[i]), grey(::roi[i]), Size(0, 0), 4);
+     if(bPauseVideo){
+        for (int i = 0; i < (sizeof(roi) / sizeof(roi[0])) ; i++){
+            cvtColor(frame, grey, COLOR_BGR2GRAY);
+            cvtColor(grey, grey, COLOR_GRAY2BGR);
+            if(!::roi[i].empty()){
+                grey(::roi[i]).copyTo(frame(::roi[i]));
+                grey = frame;
+                GaussianBlur(grey(::roi[i]), grey(::roi[i]), Size(0, 0), 4);
+            }
         }
-    }
-    // imgFace = frame.clone();
-     fb.detectAndDraw(frame);
-    imshow( "Frame", frame );
-    writeTheVideo(frame);
-    cap >> ::frame; //next frame
-    lTotalFramesRead++;
+        // imgFace = frame.clone();
+         fb.detectAndDraw(frame);
+        imshow( "Frame", frame );
+     
+        writeTheVideo(frame);
+        cap >> ::frame; //next frame
+        lTotalFramesRead++;
+     }
 
     // Press  ESC on keyboard to exit
     char c=(char)waitKey(25);
     if(c==27)
         return -1;
+     else if (c == 32 || c == 'p') //pause in and out on space press or 'p' key press
+         bPauseVideo = !bPauseVideo;
+     else if (c == 'c') { // capture screenshot
+         strOutImagePath.assign(strInFilePath.begin(), strInFilePath.end()-4);
+         strOutImagePath = strOutImagePath + to_string(lTotalFramesRead) + ".jpg";
+         imwrite(strOutImagePath, frame);
+     }
     return 0;
  };
 
@@ -170,4 +182,3 @@ void SVT::finalize(){
     cap.release();
     destroyAllWindows();
 };
-

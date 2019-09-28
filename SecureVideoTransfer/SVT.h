@@ -24,9 +24,10 @@ static bool bLastUpdateSecond = false;
 
 class SVT {
     private:
+    bool bPauseVideo = 1; // Start with no pause
     int frameWidth, frameHeight, fps;
     long lTotalFramesRead, lTotalFramesWrite;
-    string strInFilePath, strOutFilePath;
+    string strInFilePath, strOutFilePath, strOutImagePath;
     VideoCapture cap;
     VideoWriter video;
     
