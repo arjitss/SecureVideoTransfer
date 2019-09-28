@@ -19,7 +19,7 @@ using namespace cv;
 static Rect roi[2]; // Only two ROI considered for this project
 static int drag = 0;
 static Point point1, point2;
-static Mat frame, greyframe;
+static Mat frame;
 static bool bLastUpdateSecond = false;
 
 class SVT {
