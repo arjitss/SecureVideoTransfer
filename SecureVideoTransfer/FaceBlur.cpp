@@ -16,7 +16,6 @@ int FaceBlur::LoadCascade(string xmlFile){
     if( xmlFile == ""){
         xmlFile = "/Users/arjits/cosmos/VideoAnalytics/opencv-4.1.1/data/haarcascades/haarcascade_frontalface_alt.xml";
     }
-    
     cascade.load( xmlFile ) ;
 
     return 0;
@@ -32,16 +31,15 @@ void FaceBlur::detectAndDraw(Mat& img){
     cvtColor( img, frame_gray, COLOR_BGR2GRAY );
     equalizeHist( frame_gray, frame_gray );
     //-- Detect faces
-      std::vector<Rect> faces;
+    std::vector<Rect> faces;
     // Detect faces of different sizes using cascade classifier
-       cascade.detectMultiScale( frame_gray,faces );
+    cascade.detectMultiScale( frame_gray,faces );
     for ( size_t i = 0; i < faces.size(); i++ ){
         Rect faceROI2 =  faces[i];
         Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
+        // IN CASE WE NEED TO DRAW A CIRCLE ON FACE
         //ellipse( img, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 255, 255 ), 4 );
-        
+        // BLUR THE FACE
         GaussianBlur(img(faceROI2), img(faceROI2), Size(0, 0), 4);
     }
 }
-
-

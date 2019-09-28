@@ -16,7 +16,6 @@
 int SVT::getInFile(string strInFilePath){
    // For Test Purpose
     if(strInFilePath.length() == 0){
-        //strInFilePath = "https://www.w3schools.com/html/mov_bbb.mp4";
         strInFilePath = "/Users/arjits/cosmos/VideoAnalytics/OpenCvShamb2/RightScenario.mp4";
     }
     this->strInFilePath = strInFilePath;
@@ -37,9 +36,6 @@ int SVT::getInFile(string strInFilePath){
 /* input                                                              */
 //----------------------------------------------------------------------
 string SVT::getOutFile(string strOutFilePath){
-    
-    time_t curtime;
-    time(&curtime);
     
     if(strOutFilePath == "")
         strOutFilePath.assign(strInFilePath.begin(), strInFilePath.end()-4);
@@ -63,14 +59,12 @@ string SVT::getOutFile(string strOutFilePath){
     if (event == EVENT_LBUTTONDOWN && !drag){
         point1 = Point(x, y);
         drag = 1;
-
     }
     if (event == EVENT_MOUSEMOVE && drag){
         point2 = Point(x, y);
         rectangle(img1, point1, point2, Scalar(0, 0, 255), 1, 8, 0);
         imshow("Frame", img1);
-        }
-    
+    }
     if (event == EVENT_LBUTTONUP && drag){
         point2 = Point(x, y);
         drag = 0;
@@ -140,10 +134,11 @@ void SVT::showMeTheVideo(){
                 GaussianBlur(grey(::roi[i]), grey(::roi[i]), Size(0, 0), 4);
             }
         }
-        // imgFace = frame.clone();
-         fb.detectAndDraw(frame);
+        // CHECK FOR ANY FACES IN THE VIDEO
+        fb.detectAndDraw(frame);
         imshow( "Frame", frame );
-     
+        
+        // Write the Video
         writeTheVideo(frame);
         cap >> ::frame; //next frame
         lTotalFramesRead++;
@@ -153,12 +148,12 @@ void SVT::showMeTheVideo(){
     char c=(char)waitKey(25);
     if(c==27)
         return -1;
-     else if (c == 32 || c == 'p') //pause in and out on space press or 'p' key press
-         bPauseVideo = !bPauseVideo;
-     else if (c == 'c') { // capture screenshot
-         strOutImagePath.assign(strInFilePath.begin(), strInFilePath.end()-4);
-         strOutImagePath = strOutImagePath + to_string(lTotalFramesRead) + ".jpg";
-         imwrite(strOutImagePath, frame);
+    else if (c == 32 || c == 'p') //pause in and out on space press or 'p' key press
+        bPauseVideo = !bPauseVideo;
+    else if (c == 'c') { // capture screenshot
+        strOutImagePath.assign(strInFilePath.begin(), strInFilePath.end()-4);
+        strOutImagePath = strOutImagePath + to_string(lTotalFramesRead) + ".jpg";
+        imwrite(strOutImagePath, frame);
      }
     return 0;
  };
