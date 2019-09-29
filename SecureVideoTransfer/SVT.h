@@ -27,16 +27,17 @@ class SVT {
     bool bPauseVideo = 1; // Start with no pause
     int frameWidth, frameHeight, fps;
     long lTotalFramesRead, lTotalFramesWrite;
-    string strInFilePath, strOutFilePath, strOutImagePath;
+    string strInFilePath, strOutFilePath, strOutImagePath, bWithHaarFaceBlur;
     VideoCapture cap;
     VideoWriter video;
     
     public:
     int getInFile(string strInFilePath);
     string getOutFile(string strOutFilePath);
-    void showMeTheVideo();
+    void FaceBlurRequired(string bWithHaarFaceBlur);
+    void showMeTheVideo(string bWithHaarFaceBlur);
     void writeTheVideo(Mat frame);
-    int BlurROI(Mat frame, int iCall);
+    int BlurROI(Mat frame, int iCall, string bWithHaarFaceBlur);
     void finalize();
     
     FaceBlur fb;

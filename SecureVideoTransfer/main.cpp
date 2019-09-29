@@ -16,6 +16,7 @@
 
 int main(int argc, const char * argv[]) {
     string strInFilePath, strOutFilePath, strHaarXML;
+    string bWithHaarFaceBlur;
     SVT svt;
 
     std::cout << "Enter the Path and File Name to be converted:\n";
@@ -31,15 +32,21 @@ int main(int argc, const char * argv[]) {
     cout << strOutFilePath <<endl;
     
     svt.getOutFile(strOutFilePath); // Use the same path as input file
+    
+    std::cout << "Do you want to blur face - Y / N (Default (N) : Enter)\n";
+    getline(cin,bWithHaarFaceBlur);
+    svt.FaceBlurRequired(bWithHaarFaceBlur);
+    
+    if(bWithHaarFaceBlur == "Y" || bWithHaarFaceBlur == "y"){
+        std::cout << "Enter the Path and File Name for HaarCascade (Default : Enter)\n";
+        getline(cin, strHaarXML);
+        cout << strHaarXML <<endl;
+        
+        svt.fb.LoadCascade(strHaarXML);
+    }
+    
 
-    std::cout << "Enter the Path and File Name for HaarCascade (Default : Enter)\n";
-    
-    getline(cin, strHaarXML);
-    cout << strHaarXML <<endl;
-    
-    svt.fb.LoadCascade(strHaarXML);
-    
-    svt.showMeTheVideo();
+    svt.showMeTheVideo(bWithHaarFaceBlur);
     svt.finalize();
     return 0;
 }
