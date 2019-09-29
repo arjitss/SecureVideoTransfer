@@ -49,6 +49,20 @@ string SVT::getOutFile(string strOutFilePath){
 };
 
 //----------------------------------------------------------------------
+/* This function is for opening the output Video file based on the    */
+/* input                                                              */
+//----------------------------------------------------------------------
+void SVT::FaceBlurRequired(string bWithHaarFaceBlur){
+    
+    if(bWithHaarFaceBlur == "Y" || bWithHaarFaceBlur == "y"){
+        this->bWithHaarFaceBlur = "Y";
+    }
+    else{
+        this->bWithHaarFaceBlur = "N";
+    }
+};
+
+//----------------------------------------------------------------------
 /* Identify the 2 ROIs based on the mouse click                        */
 //----------------------------------------------------------------------
 
@@ -88,19 +102,19 @@ string SVT::getOutFile(string strOutFilePath){
    1. BlurROI - for selecting two ROIs and Blur it                   */
 //----------------------------------------------------------------------
 
-void SVT::showMeTheVideo(){
+void SVT::showMeTheVideo(string bWithHaarFaceBlur){
     cap >> ::frame;
     // If the frame is empty, break immediately
     if (frame.empty())
         exit(-1);
     
-    lTotalFramesRead ++ ; // Get the count of the frames
-    cout << lTotalFramesRead << endl;
-    BlurROI(::frame, 0);
+    lTotalFramesRead ++ ; // Count + 1 for first frame
+    
+    BlurROI(::frame, 0, bWithHaarFaceBlur);
     waitKey(0);
     
     while(1){
-        if( BlurROI(::frame, 1) == -1)
+        if( BlurROI(::frame, 1, bWithHaarFaceBlur) == -1)
             break;
     }
 };
@@ -113,7 +127,7 @@ void SVT::showMeTheVideo(){
   3. It also pause or start play based on space bar or letter 'p' press */
 //----------------------------------------------------------------------
 
- int SVT::BlurROI(Mat frame, int iCall){
+ int SVT::BlurROI(Mat frame, int iCall, string bWithHaarFaceBlur){
     Mat grey, imgFace;
     if(lTotalFramesRead == 1 && iCall == 0){
         imshow( "Frame", frame );
@@ -135,7 +149,8 @@ void SVT::showMeTheVideo(){
             }
         }
         // CHECK FOR ANY FACES IN THE VIDEO
-        fb.detectAndDraw(frame);
+         if(bWithHaarFaceBlur == "Y")
+             fb.detectAndDraw(frame);
         imshow( "Frame", frame );
         
         // Write the Video
@@ -143,7 +158,6 @@ void SVT::showMeTheVideo(){
         cap >> ::frame; //next frame
         lTotalFramesRead++;
      }
-
     // Press  ESC on keyboard to exit
     char c=(char)waitKey(25);
     if(c==27)
